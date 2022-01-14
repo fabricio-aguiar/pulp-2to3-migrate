@@ -7,7 +7,7 @@
 
 ---
 name: 2To3-Migration CI
-on: {pull_request: {branches: ['*']}}
+on: {push: {branches: ['*']}}
 jobs:
 
 
@@ -29,7 +29,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    
+
 
     steps:
       - uses: actions/checkout@v2
@@ -59,7 +59,7 @@ jobs:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
         run: sh .github/workflows/scripts/check_commit.sh
 
-      
+
 
       # Lint code.
       - name: Run flake8
@@ -69,7 +69,7 @@ jobs:
       - name: Check manifest
         run: check-manifest
 
-      
+
 
       - name: Check for gettext problems
         run: sh .ci/scripts/check_gettext.sh
@@ -108,7 +108,7 @@ jobs:
           echo "TEST=${{ matrix.env.TEST }}" >> $GITHUB_ENV
 
       - name: Before Install
-        
+
         run: .github/workflows/scripts/before_install.sh
         shell: bash
         env:
@@ -122,7 +122,7 @@ jobs:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
 
       - name: Install
-        
+
         run: .github/workflows/scripts/install.sh
         shell: bash
         env:
@@ -136,7 +136,7 @@ jobs:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
 
       - name: Install Python client
-        
+
         run: .github/workflows/scripts/install_python_client.sh
         shell: bash
 
@@ -146,7 +146,7 @@ jobs:
         shell: bash
 
       - name: Before Script
-        
+
         run: .github/workflows/scripts/before_script.sh
         shell: bash
         env:
@@ -167,7 +167,7 @@ jobs:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
       - name: Script
-        
+
         run: .github/workflows/scripts/script.sh
         shell: bash
         env:
