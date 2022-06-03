@@ -1,5 +1,5 @@
 dynaconf
 mongoengine
 semantic-version
-pulp-smash @ git+https://github.com/pulp/pulp-smash.git
+pulp-smash @ git+https://github.com/fao89/pulp-smash.git@debug
 pytest

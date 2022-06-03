@@ -7,7 +7,7 @@
 
 ---
 name: 2To3-Migration CI
-on: {pull_request: {branches: ['*']}}
+on: {push: {branches: ['*']}}
 jobs:
 
 
@@ -29,7 +29,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    
+
 
     steps:
       - uses: actions/checkout@v3
@@ -59,7 +59,7 @@ jobs:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
         run: sh .github/workflows/scripts/check_commit.sh
 
-      
+
 
       # Lint code.
       - name: Run flake8
@@ -72,7 +72,7 @@ jobs:
       - name: Check manifest
         run: check-manifest
 
-      
+
 
       - name: Check for gettext problems
         run: sh .ci/scripts/check_gettext.sh
@@ -80,7 +80,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     # run only after lint finishes
-    needs: lint
     strategy:
       fail-fast: false
       matrix:
@@ -113,7 +112,7 @@ jobs:
           echo "TEST=${{ matrix.env.TEST }}" >> $GITHUB_ENV
 
       - name: Before Install
-        
+
         run: .github/workflows/scripts/before_install.sh
         shell: bash
         env:
@@ -127,7 +126,7 @@ jobs:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
 
       - name: Install
-        
+
         run: .github/workflows/scripts/install.sh
         shell: bash
         env:
@@ -141,7 +140,7 @@ jobs:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
 
       - name: Install Python client
-        
+
         run: .github/workflows/scripts/install_python_client.sh
         shell: bash
 
@@ -151,7 +150,7 @@ jobs:
         shell: bash
 
       - name: Before Script
-        
+
         run: .github/workflows/scripts/before_script.sh
         shell: bash
         env:
@@ -172,7 +171,7 @@ jobs:
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
       - name: Script
-        
+
         run: .github/workflows/scripts/script.sh
         shell: bash
         env:
@@ -184,6 +183,10 @@ jobs:
           GITHUB_REPO_SLUG: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
+
+      # - name: Debugging with tmate
+      #   if: always()
+      #   uses: mxschmitt/action-tmate@v3.11
 
       - name: Extract Deprecations from Logs
         id: deprecations

@@ -158,21 +158,21 @@ if [ -f $FUNC_TEST_SCRIPT ]; then
 else
 
     if [[ "$GITHUB_WORKFLOW" == "2To3-Migration Nightly CI/CD" ]]; then
-        pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_2to3_migration.tests.functional -m parallel -n 8
-        pytest -v -r sx --color=yes --pyargs pulp_2to3_migration.tests.functional -m "not parallel"
+        pytest -v -r sx --color=yes --capture=no --suppress-no-test-exit-code --pyargs pulp_2to3_migration.tests.functional -m parallel -n 8
+        pytest -v -r sx --color=yes --capture=no --pyargs pulp_2to3_migration.tests.functional -m "not parallel"
 
-    
-        pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulpcore.tests.functional -m "from_pulpcore_for_all_plugins and parallel" -n  8
-        pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulpcore.tests.functional -m "from_pulpcore_for_all_plugins and not parallel"
-    
+
+        pytest -v -r sx --color=yes --capture=no --suppress-no-test-exit-code --pyargs pulpcore.tests.functional -m "from_pulpcore_for_all_plugins and parallel" -n  8
+        pytest -v -r sx --color=yes --capture=no --suppress-no-test-exit-code --pyargs pulpcore.tests.functional -m "from_pulpcore_for_all_plugins and not parallel"
+
     else
-        pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_2to3_migration.tests.functional -m "parallel and not nightly" -n 8
-        pytest -v -r sx --color=yes --pyargs pulp_2to3_migration.tests.functional -m "not parallel and not nightly"
+        pytest -v -r sx --color=yes --capture=no --suppress-no-test-exit-code --pyargs pulp_2to3_migration.tests.functional -m "parallel and not nightly" -n 8
+        pytest -v -r sx --color=yes --capture=no --pyargs pulp_2to3_migration.tests.functional -m "not parallel and not nightly"
 
-    
-        pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulpcore.tests.functional -m "from_pulpcore_for_all_plugins and not nightly and parallel" -n  8
-        pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulpcore.tests.functional -m "from_pulpcore_for_all_plugins and not nightly and not parallel"
-    
+
+        pytest -v -r sx --color=yes --capture=no --suppress-no-test-exit-code --pyargs pulpcore.tests.functional -m "from_pulpcore_for_all_plugins and not nightly and parallel" -n  8
+        pytest -v -r sx --color=yes --capture=no --suppress-no-test-exit-code --pyargs pulpcore.tests.functional -m "from_pulpcore_for_all_plugins and not nightly and not parallel"
+
     fi
 
 fi
